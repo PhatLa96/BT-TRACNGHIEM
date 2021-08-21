@@ -2,8 +2,9 @@ import { FormControl, FormLabel, TextField } from "@material-ui/core";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { fetchAnswer } from "../../store/action/questionList";
+import { debounce } from "lodash";
 class FillinBlank extends Component {
-  handleChange = (event) => {
+  handleChange = debounce((event) => {
     this.props.dispatch(
       fetchAnswer({
         QuestionId: event.target.id,
@@ -16,15 +17,19 @@ class FillinBlank extends Component {
         },
       })
     );
-  };
+  }, 1000);
   render() {
     const { content, answers, id } = this.props.item2;
     return (
       <div>
         <FormControl component="fieldset" style={{ marginTop: 20 }}>
           <FormLabel
-       
-            style={{ marginBottom: 10,color: "#000000", fontWeight: "bold",lineHeight:1.5}}
+            style={{
+              marginBottom: 10,
+              color: "#000000",
+              fontWeight: "bold",
+              lineHeight: 1.5,
+            }}
             component="legend"
           >
             Câu hỏi {id} : {content}
